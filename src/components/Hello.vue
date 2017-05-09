@@ -1,21 +1,28 @@
 <template>
-
   <div>
-
-
-    <h1>{{ msg }}</h1>
-    <ics-table :columns="gridColumns" :filterKey="searchQuery" :data="gridData"></ics-table>
+    <h1>Top:{{top}}</h1>
+    <div style="position: relative;height: 150px;width: 1000px;overflow: hidden">
+      <div id="locked-table" style="vertical-align: top;overflow: hidden; display: inline-block;width: 492px;height: 150px;box-sizing: content-box">
+        <ics-table :columns="gridColumns" :filterKey="searchQuery" :data="gridData"></ics-table>
+      </div>
+      <div id="srollable-table" v-on:scroll="onScroll($event)" style="width: 152px;height: 167px;box-sizing: content-box;display: inline-block;overflow: scroll">
+        <ics-table :columns="gridColumns" :filterKey="searchQuery" :data="gridData"></ics-table>
+      </div>
+    </div>
   </div>
+
 </template>
 
 <script>
   import IcsCell from './Cell'
   import IcsTable from './Table'
-//  import kendo from 'kendo'
+  import $ from 'jquery'
+  //  import kendo from 'kendo'
   export default {
     components: {
       IcsTable,
-      IcsCell},
+      IcsCell
+    },
     name: 'hello',
     data () {
       let searchQuery = ''
@@ -27,14 +34,14 @@
         {name: 'Jet Li', power: 8000}
       ]
       return {
-        msg: 'liuwengao',
         vertical: 'bottom',
         horizontal: 'center',
         duration: 4000,
         edit: false,
         searchQuery: searchQuery,
         gridColumns: gridColumns,
-        gridData: gridData
+        gridData: gridData,
+        top: '-10px'
       }
     },
     methods: {
@@ -44,6 +51,18 @@
       },
       close () {
         this.edit = false
+      },
+      onScroll (e) {
+        console.log(e.target.scrollTop)
+        this.top = $('#srollable-table').scrollTop()
+        $('#locked-table').scrollTop($('#srollable-table').scrollTop())
+      }
+    },
+    computed: {
+      styles: function () {
+        return {
+          top: this.top
+        }
       }
     }
   }

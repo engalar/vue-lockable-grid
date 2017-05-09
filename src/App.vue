@@ -1,6 +1,15 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <md-menu md-align-trigger>
+      <md-button md-menu-trigger>Align trigger</md-button>
+
+      <md-menu-content md-offset-y="-90">
+        <md-menu-item>My Item 1</md-menu-item>
+        <md-menu-item>My Item 2</md-menu-item>
+        <md-menu-item>My Item 3</md-menu-item>
+      </md-menu-content>
+    </md-menu>
+
     <router-view></router-view>
   </div>
 </template>
